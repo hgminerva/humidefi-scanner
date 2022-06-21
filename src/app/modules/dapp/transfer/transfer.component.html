@@ -1,0 +1,73 @@
+<div class="dapp-container">
+    <div class="grid">
+        <div class="col-12 md:col-6 lg:col-2"></div>
+        <div class="col-12 md:col-6 lg:col-8 px-2">
+            <div class="card border-round-3xl" style="box-shadow: 3px 2px 5px 0px #dfdfdf !important;">
+                <div class="flex-wrap card-container w-full">
+                    <div class="bg-white px-6 pt-4 pb-4 border-round-3xl" style="min-height: 180px;">
+                        <div class="grid">
+                            <div class="col-12 md:col-6 lg:col-12">
+                                <div class="mb-2">
+                                    Source Account
+                                </div>
+                                <div class="card border-round-2xl border-1 border-gray-400">
+                                    <div class="flex-wrap card-container overflow-hidden w-full">
+                                        <div class="px-3 pt-3 font-bold text-gray-700">
+                                            {{walletMetaName}}
+                                        </div>
+                                        <div class="text-sm px-3 pt-2 text-gray-500">
+                                            {{walletKeyPair}}
+                                        </div>
+                                        <div class="text-lg px-3 pt-2 pb-3">
+                                            <span class="text-gray-700">Balance:</span>&nbsp;<span
+                                                class="font-bold text-pink-900">{{walletBalance}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="grid">
+                            <div class="col-12 md:col-6 lg:col-6">
+                                <div class="mb-2">
+                                    Select Source Chain
+                                </div>
+                                <div>
+                                    <p-dropdown [options]="sourceNetworks" [style]="{'width':'100%'}"
+                                        optionLabel="name">
+                                    </p-dropdown>
+                                </div>
+                            </div>
+                            <div class="col-12 md:col-6 lg:col-6">
+                                <div class="mb-2">
+                                    Amount
+                                </div>
+                                <div class="p-inputgroup">
+                                    <input type="number" pInputText placeholder="0" value="0"
+                                        [(ngModel)]="transferData.amount">
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="grid">
+                            <div class="col-12 md:col-6 lg:col-12">
+                                <div class="mb-2">
+                                    Destination Account (Wallet Address)
+                                </div>
+                                <input type="text" pInputText placeholder="" value="" class="p-inputtext-lg"
+                                    [style]="{'width':'100%'}" [(ngModel)]="transferData.recipient">
+                            </div>
+                        </div>
+                        <br />
+                        <div class="mt-2 px-3 text-center">
+                            <button pButton type="button" label="Transfer" class="p-button-warning p-button-lg mr-2"
+                                (click)="transfer()"></button>
+                        </div>
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 md:col-6 lg:col-2"></div>
+    </div>
+</div>

@@ -1,0 +1,78 @@
+<div class="header-wrap">
+    <div class="header-content">
+        <div class="grid">
+            <div class="col-12 md:col-6 lg:col-4"></div>
+            <div class="col-12 md:col-6 lg:col-4">
+                <p-card>
+                    <div class="connect-wallet-img">
+                        <img alt="Card" src="./../../../../assets/img/home/polkadot_logo.png" style="width: 100%;">
+                    </div>
+                    <div *ngIf="seletedWallet == ''">
+                        <div class="connect-wallet-title">
+                            <div style="font-size: 25px; margin-bottom: 5px;">
+                                <span>
+                                    Connect Wallet
+                                </span>
+                            </div>
+                            <span style="font-size: 15px; color: rgb(131, 131, 131);">
+                                To start using Humidefi
+                            </span>
+                        </div>
+                        <div class="connect-wallet-button">
+                            <p-button styleClass="p-button-outlined p-button-warning p-button-lg"
+                                [style]="{ 'width': '100%' }" (onClick)="selectPolkadot()">
+                                <img alt="logo" src="./../../../../assets/img/home/polkadot_icon.png"
+                                    style="width: 1.5rem" />
+                                <span class="ml-2 font-bold">Polkadot(.js)</span>
+                                <div style="position: absolute; float: right; right: 0; padding-right: 20px;">
+                                    <i class="pi pi-arrow-right"></i>
+                                </div>
+                            </p-button>
+                        </div>
+                    </div>
+                    <div *ngIf="seletedWallet == 'PolkadotJS'">
+                        <div class="connect-wallet-title">
+                            <div style="font-size: 25px; margin-bottom: 5px;">
+                                <span>
+                                    Choose Account
+                                </span>
+                            </div>
+                        </div>
+                        <br />
+                        <div *ngIf="web3Wallets.length == 0" style="width: 100%; text-align: center;">
+                            <span>No Accounts / No Web3 Extensions Installed</span>
+                        </div>
+                        <div *ngIf="web3Wallets.length > 0">
+                            <p-table [value]="web3Wallets" selectionMode="single" [(selection)]="selectedWallet"
+                                (onRowSelect)="onWalletSelect($event)">
+                                <ng-template pTemplate="body" let-web3Wallet>
+                                    <tr [pSelectableRow]="web3Wallet">
+                                        <td style="word-break: break-all; border-radius: 10px; border: none;">
+                                            <span style="font-size: 20px; font-weight: bold;">
+                                                {{web3Wallet.metaName}}
+                                            </span>
+                                            <br />
+                                            <span style="font-size: 12px; color: gray;">
+                                                {{web3Wallet.address}}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                        <br />
+                        <div style="text-align: center; width: 100%;">
+                            <button pButton class="p-button-warning p-button-sm p-button-rounded" type="button"
+                                icon="pi pi-arrow-left" iconPos="left" label="" (click)="seletedWallet = ''"></button>
+                        </div>
+                        <br />
+                    </div>
+                    <div class="connect-wallet-footer">
+                        <span>By connecting, I accept Humidefi's Terms of Service</span>
+                    </div>
+                </p-card>
+            </div>
+            <div class="col-12 md:col-6 lg:col-4"></div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+{
+  "hosting": {
+    "site": "humidefi-app-defi",
+    "public": "dist/humidefi-app-defi",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
