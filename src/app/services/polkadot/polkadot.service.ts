@@ -104,4 +104,120 @@ export class PolkadotService {
       }
     });
   }
+  blocks: any[] = [];
+
+  async test(): Promise<any> {
+    const api = await ApiPromise.create({ provider: this.wsProvider });
+    // console.log(api.genesisHash.toHex());
+    // console.log(api.consts.babe.epochDuration.toNumber());
+    // console.log(api.consts.balances.existentialDeposit.toNumber());
+    // console.log(api.consts.transactionPayment.transactionByteFee.toNumber());
+
+    // ApiPromise
+    //   .create({ provider: this.wsProvider })
+    //   .then((api) =>
+    //     console.log(api.genesisHash.toHex())
+    //   );
+
+    // const api = ApiPromise.create({ provider: this.wsProvider });
+    // console.log((await api).isReady);
+
+    // The actual address that we will use
+    // const ADDR = '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFabHE';
+
+    // Retrieve the last timestamp
+    // const now = await api.query.timestamp.now();
+
+    // // Retrieve the account balance & nonce via the system module
+    // const { nonce, data: balance } = await api.query.system.account(ADDR);
+
+    // Retrieve last block timestamp, account nonce & balances
+    // const [now, { nonce, data: balance }] = await Promise.all([
+    //   api.query.timestamp.now(),
+    //   api.query.system.account(ADDR)
+    // ]);
+
+    // console.log(`${now}: balance of ${balance.free} and a nonce of ${nonce}`);
+
+    // Retrieve the chain name
+    const chain = await api.rpc.system.chain();
+    // Retrieve the latest header
+    // const lastHeader = await api.rpc.chain.getHeader();
+  
+
+    await api.rpc.chain.subscribeNewHeads(async (lastHeader) => {
+
+      let timestamp;
+      await api.query.timestamp.now((moment) => {
+        timestamp = `${moment}`;
+        console.log(`The last block has a timestamp of ${this.convertMsToTime(moment)}`);
+      });
+
+      this.blocks.push({
+        block: `${lastHeader.number}`,
+        hash: `${lastHeader.hash}`,
+        timestamp: timestamp,
+        metadata: `${lastHeader}`,
+      });
+    });
+    console.log(this.blocks)
+    return this.blocks;
+
+
+
+    // // Subscribe to the new headers
+    // await api.rpc.chain.subscribeNewHeads((lastHeader) => {
+    //   console.log(`'block number:' #${lastHeader.number}`);
+    //   console.log(`'hash'#${lastHeader.hash}`);
+    //   console.log(`'extrinsicsRoot' #${lastHeader.extrinsicsRoot}`);
+    //   console.log(lastHeader);
+    //   // console.log(`'hash'#${lastHeader.}`);
+    //   console.log(new Date());
+    //   // console.log('hash:',lastHeader.hash);
+    //   // console.log(`${chain}: last block #${lastHeader.number} has hash ${lastHeader.hash}`);
+    // });
+    // let count = 0;
+
+    // // Subscribe to the new headers
+    // const unsubHeads = await api.rpc.chain.subscribeNewHeads((lastHeader) => {
+    //   console.log(`${chain}: last block #${lastHeader.number} has hash ${lastHeader.hash}`);
+
+    //   if (++count === 10) {
+    //     unsubHeads();
+    //   }
+    // });
+
+    // const unsub = await api.derive.chain.subscribeNewHeads((lastHeader) => {
+    //   // console.log(`#${lastHeader.number} was authored by ${lastHeader.author}`);
+    //   // console.log(`'hash'#${lastHeader.hash}`);
+    // });
+    // const _unsub = await api.query.timestamp.now((moment) => {
+    //   console.log(`The last block has a timestamp of ${this.convertMsToTime(moment)}`);
+    // });
+  }
+
+
+  padTo2Digits(num: any) {
+    return num.toString().padStart(2, '0');
+  }
+
+  convertMsToTime(milliseconds: any) {
+    let seconds = Math.floor(milliseconds / 1000);
+    let minutes = Math.floor(seconds / 60);
+    let hours = Math.floor(minutes / 60);
+
+    seconds = seconds % 60;
+    minutes = minutes % 60;
+
+    // 👇️ If you don't want to roll hours over, e.g. 24 to 00
+    // 👇️ comment (or remove) the line below
+    // commenting next line gets you `24:00:00` instead of `00:00:00`
+    // or `36:15:31` instead of `12:15:31`, etc.
+    hours = hours % 24;
+
+    return `${this.padTo2Digits(hours)}:${this.padTo2Digits(minutes)}:${this.padTo2Digits(
+      seconds,
+    )}`;
+  }
 }
+

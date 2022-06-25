@@ -26,67 +26,39 @@ export class HeaderComponent implements OnInit {
 
       if (event instanceof NavigationEnd) {
         switch (event.url) {
-          case '/dapp':
+          case '/scanner':
             this.titleName = "Home";
 
             this.menuItems = [
-              { label: 'Home' }
+              { label: 'Home' },
             ];
             break;
-          case '/dapp/dashboard':
-            this.titleName = "Home";
-
-            this.menuItems = [
-              { label: 'Home' }
-            ];
-            break;
-          case '/dapp/portfolio':
-            this.titleName = "Portfolio";
+          case '/scanner/blocks':
+            this.titleName = "Blocks";
             this.menuItems = [
               { label: 'Home' },
-              { label: 'Portfolio' }
+              { label: 'Blocks' }
             ];
             break;
-          case '/dapp/load-bridge':
-            this.titleName = "Bridge";
+          case '/scanner/accounts':
+            this.titleName = "Accounts";
             this.menuItems = [
               { label: 'Home' },
-              { label: 'Bridge' }
+              { label: 'Accounts' }
             ];
             break;
-          case '/dapp/load-purchase':
-            this.titleName = "Purchase";
+          case '/scanner/validators':
+            this.titleName = "Validators";
             this.menuItems = [
               { label: 'Home' },
-              { label: 'Purchase' }
+              { label: 'Validators' }
             ];
             break;
-          case '/dapp/swap':
-            this.titleName = "Swap";
+          case '/scanner/scripts':
+            this.titleName = "Accounts";
             this.menuItems = [
               { label: 'Home' },
-              { label: 'Swap' }
-            ];
-            break;
-          case '/dapp/stake':
-            this.titleName = "Stake";
-            this.menuItems = [
-              { label: 'Home' },
-              { label: 'Stake' }
-            ];
-            break;
-          case '/dapp/transfer':
-            this.titleName = "Transfer";
-            this.menuItems = [
-              { label: 'Home' },
-              { label: 'Transfer' }
-            ];
-            break;
-          case '/dapp/withdraw':
-            this.titleName = "Withdraw";
-            this.menuItems = [
-              { label: 'Home' },
-              { label: 'Withdraw' }
+              { label: 'Accounts' }
             ];
             break;
           default:
