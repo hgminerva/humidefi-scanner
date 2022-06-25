@@ -26,11 +26,20 @@ export class HeaderComponent implements OnInit {
 
       if (event instanceof NavigationEnd) {
         switch (event.url) {
+          case '/':
+            this.titleName = "Home";
+
+            this.menuItems = [
+              { label: 'Home' },
+              { label: 'Blocks' }
+            ];
+            break;
           case '/scanner':
             this.titleName = "Home";
 
             this.menuItems = [
               { label: 'Home' },
+              { label: 'Blocks' }
             ];
             break;
           case '/scanner/blocks':

@@ -12,7 +12,7 @@ const routes: Routes = [
     path: '',
     component: ScannerComponent,
     children: [
-      { path: '', component: ScannerComponent },
+      { path: '', component: BlocksComponent },
       { path: 'blocks', component: BlocksComponent },
       { path: 'accounts', component: AccountsComponent },
       { path: 'validators', component: ValidatorsComponent },

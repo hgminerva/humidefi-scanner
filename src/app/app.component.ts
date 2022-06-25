@@ -7,5 +7,5 @@ import '@polkadot/api-augment';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'humidefi-app-defi';
+  title = 'humidefi-app-blockchain';
 }

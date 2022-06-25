@@ -1,28 +1,27 @@
 <div class="dapp-container">
 
     <div class="grid">
-        <div class="col-12 md:col-6 lg:col-12 ">
+        <div class="col-12 md:col-12 lg:col-12 ">
             <div class="card border-round-3xl" style="box-shadow: 3px 2px 5px 0px #dfdfdf !important;">
                 <div class="flex-wrap card-container overflow-hidden w-full">
                     <div class="bg-white px-6 pt-4 pb-4 border-round-3xl" style="min-height: 180px;">
-                        <p-table #dt [value]="blocks" responsiveLayout="scroll">
+                        <p-table [value]="blocks"  responsiveLayout="scroll">
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th>#</th>
                                     <th>Time</th>
-                                    <th>Hash</th>
+                                    <th>Block</th>
+                                    <th>Extrinsic</th>
+                                    <th>Weight</th>
+                                    <th>Signature</th>
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-block>
                                 <tr>
-                                    <td>{{block.block}}</td>
                                     <td>{{ convertMsToTime(block.timestamp)}}</td>
-                                    <td>{{block.hash}}</td>
-                                    <!-- <td>{{holding.ticker}}</td>
-                                    <td>{{holding.name}}</td>
-                                    <td>{{holding.price}}</td>
-                                    <td>{{holding.balance}}</td>
-                                    <td>{{holding.value}}</td> -->
+                                    <td>{{block.block}}</td>
+                                    <td></td>
+                                    <td>{{block.weight}}</td>
+                                    <td>{{block.signature}}</td>
                                 </tr>
                             </ng-template>
                         </p-table>

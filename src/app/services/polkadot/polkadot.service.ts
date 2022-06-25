@@ -104,16 +104,36 @@ export class PolkadotService {
       }
     });
   }
-  
+
   blockArray: any[] = [];
 
   async blocks(): Promise<any> {
     const api = await ApiPromise.create({ provider: this.wsProvider });
 
-    // Retrieve the chain name
-    const chain = await api.rpc.system.chain();
-
     await api.rpc.chain.subscribeNewHeads(async (lastHeader) => {
+      console.log(`${lastHeader.number}`);
+      console.log(`${lastHeader.hash}`);
+
+      // get the api and events at a specific block
+      const apiAt = await api.at(`${lastHeader.hash}`);
+      const allRecords = await apiAt.query.system.events();
+      let extrinsic = JSON.parse(`${allRecords}`);
+      let weight = extrinsic[0].event.data[0].weight;
+
+      console.log(extrinsic);
+      console.log(weight);
+
+      // const [phase,[index, data]] = allRecords;
+      // console.log(data);
+      let signature;
+      let extrinsics = await (await api.rpc.chain.getBlock(`${lastHeader.hash}`)).block.extrinsics;
+      signature = `${extrinsics[0].signer}`;
+
+      let signedBlock = await api.rpc.chain.getBlock(`${lastHeader.hash}`);
+      // the hash for each extrinsic in the block
+      signedBlock.block.extrinsics.forEach((ex, index) => {
+        console.log(index, ex.hash.toHex());
+      });
 
       let timestamp;
       await api.query.timestamp.now((moment) => {
@@ -121,10 +141,12 @@ export class PolkadotService {
       });
 
       this.blockArray.push({
+        timestamp: timestamp,
         block: `${lastHeader.number}`,
         hash: `${lastHeader.hash}`,
-        timestamp: timestamp,
-        metadata: `${lastHeader}`,
+        extrinsics: '',
+        weight: weight,
+        signature: signature,
       });
     });
     return this.blockArray;

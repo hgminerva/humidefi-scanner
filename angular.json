@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "humidefi-app-defi": {
+    "humidefi-app-blockchain": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -20,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/humidefi-app-defi",
+            "outputPath": "dist/humidefi-app-blockchain",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -73,10 +73,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "humidefi-app-defi:build:production"
+              "browserTarget": "humidefi-app-blockchain:build:production"
             },
             "development": {
-              "browserTarget": "humidefi-app-defi:build:development"
+              "browserTarget": "humidefi-app-blockchain:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -84,7 +84,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "humidefi-app-defi:build"
+            "browserTarget": "humidefi-app-blockchain:build"
           }
         },
         "test": {

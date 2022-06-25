@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'humidefi-app-defi'`, () => {
+  it(`should have as title 'humidefi-app-blockchain'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('humidefi-app-defi');
+    expect(app.title).toEqual('humidefi-app-blockchain');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('humidefi-app-defi app is running!');
+    expect(compiled.querySelector('.content span')?.textContent).toContain('humidefi-app-blockchain app is running!');
   });
 });

@@ -16,12 +16,11 @@ export class BlocksComponent implements OnInit {
   ) { }
 
   blocks: any[] = [];
+  blocksArray:any[] = [];
 
   async getBlocks(): Promise<void> {
-    let balance: Promise<any> = this.polkadotService.blocks();
-
-    this.blocks = (await balance);
-    console.log(this.blocks);
+    let blocks: Promise<any> = this.polkadotService.blocks();
+    this.blocks = (await blocks);
   }
 
   padTo2Digits(num: any) {
