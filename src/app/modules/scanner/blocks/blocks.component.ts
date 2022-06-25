@@ -18,7 +18,7 @@ export class BlocksComponent implements OnInit {
   blocks: any[] = [];
 
   async getBlocks(): Promise<void> {
-    let balance: Promise<any> = this.polkadotService.test();
+    let balance: Promise<any> = this.polkadotService.blocks();
 
     this.blocks = (await balance);
     console.log(this.blocks);
