@@ -1,8 +1,15 @@
 .sidebar-container {
-    width: 300px;
-    padding: 20px;
+  width: 250px;
+  padding: 15px;
 }
 
 .menu-items {
-    text-align: center;
+  text-align: center;
+}
+
+.box-small {
+  width: 15%;
+  height: 10px;
+  background-color: rgb(233, 233, 233);
+  margin: 0 auto;
 }

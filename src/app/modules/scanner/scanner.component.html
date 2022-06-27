@@ -1,9 +1,30 @@
 <div class="flex absolute top-0 left-0 right-0 bottom-0">
-    <div class="hidden md:inline-block bg-surface-900" style="box-shadow: 1px 0px 7px 0px #d8d8d8 !important; z-index: 1;">
+    <div class="hidden md:inline-block bg-surface-900"
+        style="box-shadow: -30px 0px 50px 0px #2d2d2d !important; z-index: 1;">
         <app-sidebar></app-sidebar>
     </div>
-    <div class="flex-grow-1 bg-gray-100 overflow-y-scroll">
+    <div class="flex-grow-1 bg-gray-100 overflow-y-scroll overflow-x-hidden">
+        <div class="md:hidden w-full text-center px-5 py-3 bg-white">
+            <img src="./../../../../assets/img/home/humedifi_logo.png" width="150" />
+            <br />
+            <span class="text-gray-600 text-sm">
+                Your Blockchain Scanner
+                <!-- Decentralized Finance
+                Hub of UMI and PHPU -->
+            </span>
+        </div>
         <app-header></app-header>
         <router-outlet></router-outlet>
+        <br />
+
+        <div class="md:hidden h-5rem w-full"></div>
+        <div class="md:hidden absolute bottom-0 w-full">
+            <app-mobilebar></app-mobilebar>
+        </div>
+
+        <div class="hidden md:block h-5rem w-full"></div>
+        <div class="hidden md:block right-0 bottom-0 w-full fixed z-5">
+            <app-footer></app-footer>
+        </div>
     </div>
 </div>

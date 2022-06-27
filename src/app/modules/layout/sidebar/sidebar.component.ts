@@ -14,10 +14,10 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit(): void {
     this.menuItems = [
-      { label: 'Blocks', routerLink: '/scanner/blocks' },
-      { label: 'Accounts', routerLink: '/scanner/accounts' },
-      { label: 'Validators', routerLink: '/scanner/validators' },
-      { label: 'Script', routerLink: '/scanner/scripts' },
+      { label: 'Blocks', routerLink: '/scanner/blocks', icon: 'pi pi-box' },
+      { label: 'Accounts', routerLink: '/scanner/accounts', icon: 'pi pi-key' },
+      { label: 'Validators', routerLink: '/scanner/validators', icon: 'pi pi-users' },
+      { label: 'Script', routerLink: '/scanner/scripts', icon: 'pi pi-code' },
     ];
   }
 }

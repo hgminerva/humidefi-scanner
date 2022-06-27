@@ -1,5 +1,3 @@
-<p-progressBar *ngIf="loadingRoute" mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
-
 <div>
     <!-- for the resposive sidebar menu -->
 </div>
@@ -8,53 +6,15 @@
     <div class="grid">
         <div class="col align-content-center">
             <div class="flex align-content-center">
-                <div class="flex align-items-center font-bold text-pink-800 header-title"
-                    style="min-width: 200px; min-height: 35px;">
+                <div class="flex align-items-center header-title text-gray-800"
+                    style="min-width: 200px; min-height: 30px;">
                     {{titleName}}
                 </div>
             </div>
         </div>
-        <div class="col text-right">
-            <!-- <p-button styleClass="p-button-outlined p-button-secondary p-button-sm" (click)="changeAccount()"
-                style="margin-right: 5px;">
-                <img alt="logo" src="./../../../../assets/img/home/polkadot_icon.png" style="width: 1rem" />
-                <span class="ml-2 font-bold">{{walletName}}</span>
-            </p-button>
-            <p-button styleClass="p-button-secondary p-button-sm">
-                <i class="pi pi-cog "></i>
-            </p-button> -->
-        </div>
     </div>
-    <p-breadcrumb [model]="menuItems"></p-breadcrumb>
 </div>
 
-<p-dialog [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '40vw'}"
-    [(visible)]="displayChangeAccountDialog" [modal]="true" [maximizable]="true">
-    <ng-template pTemplate="header">
-        Change Account
-    </ng-template>
-    <div style="width: 100%; text-align: center; padding: 10px;">
-        <img alt="Card" src="./../../../../assets/img/home/polkadot_logo.png" style="width: 200px;">
-    </div>
-    <p-divider></p-divider>
-    <p-table [value]="web3Wallets" selectionMode="single" [(selection)]="selectedWallet"
-        (onRowSelect)="onWalletSelect($event)">
-        <ng-template pTemplate="body" let-web3Wallet>
-            <tr [pSelectableRow]="web3Wallet">
-                <td style="word-break: break-all; border-radius: 10px; border: none;">
-                    <span style="font-size: 20px; font-weight: bold;">
-                        {{web3Wallet.metaName}}
-                    </span>
-                    <br />
-                    <span style="font-size: 12px; color: gray;">
-                        {{web3Wallet.address}}
-                    </span>
-                    <span *ngIf="web3Wallet.metaName == walletName"
-                        style="float: right; font-size: 12px; color: rgb(72, 190, 72);">
-                        <i class="pi pi-check "></i>
-                    </span>
-                </td>
-            </tr>
-        </ng-template>
-    </p-table>
-</p-dialog>
+<!-- <div class="breadcrumb-container">
+    <p-breadcrumb [model]="menuItems" [home]="home"></p-breadcrumb>
+</div> -->

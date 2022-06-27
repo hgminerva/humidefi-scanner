@@ -15,13 +15,15 @@ import { LayoutComponent } from './layout.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { MobilebarComponent } from './mobilebar/mobilebar.component';
 
 @NgModule({
   declarations: [
     LayoutComponent,
     HeaderComponent,
     FooterComponent,
-    SidebarComponent
+    SidebarComponent,
+    MobilebarComponent
   ],
   imports: [
     CommonModule,
@@ -37,7 +39,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
   exports: [
     HeaderComponent,
     FooterComponent,
-    SidebarComponent
+    SidebarComponent,
+    MobilebarComponent
   ]
 })
 export class LayoutModule { }
