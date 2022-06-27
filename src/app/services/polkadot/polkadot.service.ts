@@ -111,17 +111,14 @@ export class PolkadotService {
     const api = await ApiPromise.create({ provider: this.wsProvider });
 
     await api.rpc.chain.subscribeNewHeads(async (lastHeader) => {
-      console.log(`${lastHeader.number}`);
-      console.log(`${lastHeader.hash}`);
+
 
       // get the api and events at a specific block
       const apiAt = await api.at(`${lastHeader.hash}`);
       const allRecords = await apiAt.query.system.events();
       let extrinsic = JSON.parse(`${allRecords}`);
       let weight = extrinsic[0].event.data[0].weight;
-
-      console.log(extrinsic);
-      console.log(weight);
+      console.log(`${lastHeader.hash}`)
 
       // const [phase,[index, data]] = allRecords;
       // console.log(data);
@@ -129,10 +126,12 @@ export class PolkadotService {
       let extrinsics = await (await api.rpc.chain.getBlock(`${lastHeader.hash}`)).block.extrinsics;
       signature = `${extrinsics[0].signer}`;
 
+      let _extrinsics;
       let signedBlock = await api.rpc.chain.getBlock(`${lastHeader.hash}`);
       // the hash for each extrinsic in the block
       signedBlock.block.extrinsics.forEach((ex, index) => {
-        console.log(index, ex.hash.toHex());
+        // console.log(index, ex.hash.toHex());
+        _extrinsics = ex.hash.toHex();
       });
 
       let timestamp;
@@ -144,11 +143,14 @@ export class PolkadotService {
         timestamp: timestamp,
         block: `${lastHeader.number}`,
         hash: `${lastHeader.hash}`,
-        extrinsics: '',
+        extrinsics: _extrinsics,
         weight: weight,
         signature: signature,
       });
+
+      this.blockArray.sort((a, b) => b.block - a.block);
     });
+
     return this.blockArray;
   }
 

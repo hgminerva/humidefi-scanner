@@ -47,6 +47,12 @@ export class BlocksComponent implements OnInit {
     )}`;
   }
 
+  getSubstring(str: string){
+    let first = str.substring(0, 4);
+    let last = str.substring(str.length - 3, str.length );
+    return first + '...' + last;
+  }
+
 
   ngOnInit(): void {
     this.getBlocks();
