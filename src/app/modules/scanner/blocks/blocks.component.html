@@ -3,24 +3,30 @@
         <div class="col-12 md:col-12 lg:col-12 ">
             <div class="card border-round-3xl" style="box-shadow: 3px 2px 5px 0px #dfdfdf !important;">
                 <div class="flex-wrap card-container overflow-hidden w-full">
-                    <div class="bg-white px-6 pt-4 pb-4 border-round-3xl" style="min-height: 180px;">
-                        <p-table [value]="blocks" responsiveLayout="scroll">
+                    <div class="bg-white px-6 pt-4 pb-4 border-round-3xl" style="height: calc(92vh - 130px)">
+                        <p-table [value]="blocks" responsiveLayout="scroll" [scrollable]="true" scrollHeight="flex">
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th>Time</th>
-                                    <th>Block</th>
-                                    <th>Extrinsic</th>
-                                    <th>Weight</th>
-                                    <th>Signature</th>
+                                    <th style="width: 80px">Time</th>
+                                    <th style="width: 80px">Block</th>
+                                    <th style="width: 100%">Extrinsic</th>
+                                    <th style="width: 80px">Weight</th>
+                                    <th style="width: 80px">Signature</th>
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-block>
                                 <tr>
-                                    <td>{{ convertMsToTime(block.timestamp)}}</td>
-                                    <td>{{block.block}}</td>
-                                    <td>{{ getSubstring(block.extrinsics)}}</td>
-                                    <td>{{block.weight}}</td>
-                                    <td>{{ getSubstring(block.signature)}}</td>
+                                    <td style="width: 80px">{{ convertMsToTime(block.timestamp)}}</td>
+                                    <td style="width: 80px">{{block.block}}</td>
+                                    <td style="width: 100%">
+                                        <ul class="ul-extrinsic" >
+                                            <ng-container *ngFor="let extrinsic of block.extrinsics; let i = index">
+                                                <li [ngClass]="{ extrinsic: i != 0}" class="latestExtrinsic">{{extrinsic.extrinsic}}</li> 
+                                            </ng-container>
+                                        </ul >
+                                    </td>
+                                    <td style="width: 80px">{{block.weight}}</td>
+                                    <td style="width: 80px">{{ getSubstring(block.signature)}}</td>
                                 </tr>
                             </ng-template>
                         </p-table>

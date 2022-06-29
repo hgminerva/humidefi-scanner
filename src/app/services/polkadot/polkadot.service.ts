@@ -6,6 +6,7 @@ import { cryptoWaitReady, decodeAddress, signatureVerify } from '@polkadot/util-
 import { TransferModel, WalletAccountsModel } from 'src/app/models/polkadot.model';
 import { ApiPromise, WsProvider } from '@polkadot/api';
 import { AppSettings } from 'src/app/app-settings';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,8 @@ export class PolkadotService {
 
   constructor(
     private appSettings: AppSettings
-  ) { }
+  ) {
+  }
 
   wsProvider = new WsProvider(this.appSettings.wsProviderEndpoint);
 
@@ -108,36 +110,97 @@ export class PolkadotService {
   blockArray: any[] = [];
 
   async blocks(): Promise<any> {
+
     const api = await ApiPromise.create({ provider: this.wsProvider });
 
     await api.rpc.chain.subscribeNewHeads(async (lastHeader) => {
+      
 
-
-      // get the api and events at a specific block
-      const apiAt = await api.at(`${lastHeader.hash}`);
-      const allRecords = await apiAt.query.system.events();
-      let extrinsic = JSON.parse(`${allRecords}`);
-      let weight = extrinsic[0].event.data[0].weight;
-      console.log(`${lastHeader.hash}`)
-
-      // const [phase,[index, data]] = allRecords;
-      // console.log(data);
       let signature;
       let extrinsics = await (await api.rpc.chain.getBlock(`${lastHeader.hash}`)).block.extrinsics;
       signature = `${extrinsics[0].signer}`;
 
-      let _extrinsics;
-      let signedBlock = await api.rpc.chain.getBlock(`${lastHeader.hash}`);
-      // the hash for each extrinsic in the block
-      signedBlock.block.extrinsics.forEach((ex, index) => {
-        // console.log(index, ex.hash.toHex());
-        _extrinsics = ex.hash.toHex();
-      });
+      // let _extrinsics;
+      // let signedBlock = await api.rpc.chain.getBlock(`${lastHeader.hash}`);
+      // signedBlock.block.extrinsics.forEach((ex, index) => {
+      //   _extrinsics = ex.hash.toHex();
+      // });
 
       let timestamp;
       await api.query.timestamp.now((moment) => {
         timestamp = `${moment}`;
       });
+
+      let signedBlock = await api.rpc.chain.getBlock(`${lastHeader.hash}`);
+
+      const apiAt = await api.at(signedBlock.block.header.hash);
+      const allRecords = await apiAt.query.system.events();
+
+      let extrinsic = JSON.parse(`${allRecords}`);
+      let weight = extrinsic[0].event.data[0].weight;
+
+      let _extrinsics: any[] = [];
+      let extrinsicCount = 0;
+      // map between the extrinsics and events
+      // source document https://polkadot.js.org/docs/api/cookbook/blocks/
+      signedBlock.block.extrinsics.forEach(({ method: { method, section } }, index) => {
+        allRecords
+          // filter the specific events based on the phase and then the
+          // index of our extrinsic in the block
+          .filter(({ phase }) =>
+            phase.isApplyExtrinsic &&
+            phase.asApplyExtrinsic.eq(index)
+          )
+          // test the events against the specific types we are looking for
+          .forEach(({ event }) => {
+            if (api.events.system.ExtrinsicSuccess.is(event)) {
+              // extract the data for this event
+              // (In TS, because of the guard above, these will be typed)
+              const [dispatchInfo] = event.data;
+
+              console.log(`${section}.${method}:: ExtrinsicSuccess:: ${JSON.stringify(dispatchInfo.toHuman())}`);
+
+              _extrinsics.push(
+                {
+                  id: ++extrinsicCount,
+                  extrinsic: `${section}.${method}` === 'timestamp.set' ? 'system.ExtrinsicSuccess' : `${section}.${method}`,
+                  desciption: 'ExtrinsicSuccess',
+                  data: `${JSON.stringify(dispatchInfo.toHuman())}`
+                }
+              );
+            } else if (api.events.system.ExtrinsicFailed.is(event)) {
+              // extract the data for this event
+              const [dispatchError, dispatchInfo] = event.data;
+              let errorInfo;
+
+              // decode the error
+              if (dispatchError.isModule) {
+                // for module errors, we have the section indexed, lookup
+                // (For specific known errors, we can also do a check against the
+                // api.errors.<module>.<ErrorName>.is(dispatchError.asModule) guard)
+                const decoded = api.registry.findMetaError(dispatchError.asModule);
+
+                errorInfo = `${decoded.section}.${decoded.name}`;
+              } else {
+                // Other, CannotLookup, BadOrigin, no extra info
+                errorInfo = dispatchError.toString();
+              }
+
+              console.log(`${section}.${method}:: ExtrinsicFailed:: ${errorInfo}`);
+
+              _extrinsics.push(
+                {
+                  id: ++extrinsicCount,
+                  extrinsic: `${section}.${method}`,
+                  desciption: 'ExtrinsicFailed',
+                  data: `${errorInfo}`
+                }
+              );
+            }
+          });
+      });
+
+      _extrinsics.sort((a, b) => b.id - a.id);
 
       this.blockArray.push({
         timestamp: timestamp,
@@ -152,6 +215,77 @@ export class PolkadotService {
     });
 
     return this.blockArray;
+  }
+
+  async extrinsics(): Promise<any> {
+
+    const api = await ApiPromise.create({ provider: this.wsProvider });
+
+
+    await api.rpc.chain.subscribeNewHeads(async (lastHeader) => {
+
+      // let signedBlock = await api.rpc.chain.getBlock(`${lastHeader.hash}`);
+      // signedBlock.block.extrinsics.forEach((ex, index) => {
+
+      //   _extrinsics = ex.hash.toHex();
+
+      //   console.log(index, ex.toHuman());
+
+      //   const { isSigned, meta, method: { args, method, section } } = ex;
+
+      //   // explicit display of name, args & documentation
+      //   console.log(`${section}.${method}(${args.map((a) => a.toString()).join(', ')})`);
+       
+      //   if (isSigned) {
+      //     console.log(`signer=${ex.signer.toString()}, nonce=${ex.nonce.toString()}`);
+      //   }
+      // });
+
+      let signedBlock = await api.rpc.chain.getBlock(`${lastHeader.hash}`);
+
+      const apiAt = await api.at(signedBlock.block.header.hash);
+      const allRecords = await apiAt.query.system.events();
+
+      // map between the extrinsics and events
+      signedBlock.block.extrinsics.forEach(({ method: { method, section } }, index) => {
+        allRecords
+          // filter the specific events based on the phase and then the
+          // index of our extrinsic in the block
+          .filter(({ phase }) =>
+            phase.isApplyExtrinsic &&
+            phase.asApplyExtrinsic.eq(index)
+          )
+          // test the events against the specific types we are looking for
+          .forEach(({ event }) => {
+            if (api.events.system.ExtrinsicSuccess.is(event)) {
+              // extract the data for this event
+              // (In TS, because of the guard above, these will be typed)
+              const [dispatchInfo] = event.data;
+
+              console.log(`${section}.${method}:: ExtrinsicSuccess:: ${JSON.stringify(dispatchInfo.toHuman())}`);
+            } else if (api.events.system.ExtrinsicFailed.is(event)) {
+              // extract the data for this event
+              const [dispatchError, dispatchInfo] = event.data;
+              let errorInfo;
+
+              // decode the error
+              if (dispatchError.isModule) {
+                // for module errors, we have the section indexed, lookup
+                // (For specific known errors, we can also do a check against the
+                // api.errors.<module>.<ErrorName>.is(dispatchError.asModule) guard)
+                const decoded = api.registry.findMetaError(dispatchError.asModule);
+
+                errorInfo = `${decoded.section}.${decoded.name}`;
+              } else {
+                // Other, CannotLookup, BadOrigin, no extra info
+                errorInfo = dispatchError.toString();
+              }
+
+              console.log(`${section}.${method}:: ExtrinsicFailed:: ${errorInfo}`);
+            }
+          });
+      });
+    });
   }
 
 }

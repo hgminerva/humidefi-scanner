@@ -18,6 +18,16 @@ export class BlocksComponent implements OnInit {
   blocks: any[] = [];
   blocksArray:any[] = [];
 
+  selectedNetwork: string = '';
+  networks: any[] = [{
+    name: 'Testnet',
+    endPoint: ''
+  }];
+
+  networkOnChange(event: Event): void {
+    console.log(event);
+  }
+
   async getBlocks(): Promise<void> {
     let blocks: Promise<any> = this.polkadotService.blocks();
     this.blocks = (await blocks);
@@ -56,5 +66,6 @@ export class BlocksComponent implements OnInit {
 
   ngOnInit(): void {
     this.getBlocks();
+    this.polkadotService.extrinsics();
   }
 }
