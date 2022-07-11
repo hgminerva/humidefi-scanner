@@ -12,17 +12,17 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="col-12 md:col-12 lg:col-5">
+        <div class="col-12 md:col-12 lg:col-5">
             <div class="p-inputgroup">
                 <span class="p-inputgroup-addon">
-                    Network:
+                    Network
                 </span>
-                <p-dropdown [options]="networks" placeholder="Network"
-                    class="p-inputtext-lg" optionLabel="name" [style]="{'width':'100%'}"
+                <p-dropdown [options]="networks" placeholder="Network" [(ngModel)]="selected_network"
+                    class="p-inputtext-lg" optionLabel="name" optionValue="name"  [style]="{'width':'100%'}"
                     (onChange)="networkOnChange($event)" >
                 </p-dropdown>
             </div>
-        </div> -->
+        </div>
     </div>
 </div>
 

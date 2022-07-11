@@ -87,20 +87,21 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  selectedNetworkId: number = 0;
+  selected_network: any = "Testnet";
 
   networks: any[] = [{
     name: 'Testnet',
-    id: 1
   },
   {
-    name: 'Mainnet',
-    endPoint: 2
+    name: 'Devnet',
   }
   ];
 
   networkOnChange(event: any): void {
+    localStorage.setItem('network', this.selected_network);
+    location.reload();
   }
   ngOnInit(): void {
+    this.selected_network = localStorage.getItem('network') == null ? '' : localStorage.getItem('network');
   }
 }

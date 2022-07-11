@@ -7,17 +7,17 @@
                         <p-table [value]="blocks" responsiveLayout="scroll" [scrollable]="true" scrollHeight="flex">
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th style="width: 80px">Time</th>
-                                    <th style="width: 80px">Block</th>
+                                    <th style="width: 10px">Time</th>
+                                    <th style="width: 10px">Block</th>
                                     <th style="width: 100%">Extrinsic</th>
-                                    <th style="width: 80px">Weight</th>
-                                    <th style="width: 80px">Signature</th>
+                                    <th style="width: 10px">Weight</th>
+                                    <th style="width: 10px">Signature</th>
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-block>
                                 <tr>
-                                    <td style="width: 80px">{{ convertMsToTime(block.timestamp)}}</td>
-                                    <td style="width: 80px">{{block.block}}</td>
+                                    <td style="width: 10px">{{ convertMsToTime(block.timestamp)}}</td>
+                                    <td style="width: 10px">{{block.block}}</td>
                                     <td style="width: 100%">
                                         <ul class="ul-extrinsic" >
                                             <ng-container *ngFor="let extrinsic of block.extrinsics; let i = index">
@@ -25,8 +25,8 @@
                                             </ng-container>
                                         </ul >
                                     </td>
-                                    <td style="width: 80px">{{block.weight}}</td>
-                                    <td style="width: 80px">{{ getSubstring(block.signature)}}</td>
+                                    <td style="width: 10px">{{block.weight | number}}</td>
+                                    <td style="width: 10px">{{ getSubstring(block.signature)}}</td>
                                 </tr>
                             </ng-template>
                         </p-table>
