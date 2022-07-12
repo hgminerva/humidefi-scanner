@@ -21,7 +21,7 @@
                                     <td style="width: 100%">
                                         <ul class="ul-extrinsic" >
                                             <ng-container *ngFor="let extrinsic of block.extrinsics; let i = index">
-                                                <li [ngClass]="{ extrinsic: i != 0}" class="latestExtrinsic">{{extrinsic.extrinsic}}</li> 
+                                                <li [ngClass]="{ extrinsic: extrinsic.extrinsic == 'system.ExtrinsicSuccess'}" class="latestExtrinsic">{{extrinsic.extrinsic}}</li> 
                                             </ng-container>
                                         </ul >
                                     </td>

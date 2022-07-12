@@ -66,6 +66,5 @@ export class BlocksComponent implements OnInit {
 
   ngOnInit(): void {
     this.getBlocks();
-    this.polkadotService.extrinsics();
   }
 }
