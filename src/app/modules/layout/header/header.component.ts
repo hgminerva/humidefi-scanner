@@ -87,21 +87,36 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  selected_network: any = "Testnet";
-
+  selected_network: any = "testnet";
+  isComponentShown: boolean = false;
   networks: any[] = [{
-    name: 'Testnet',
+    name: 'testnet',
+    icon: 'testnet-icon'
   },
   {
-    name: 'Devnet',
+    name: 'devnet',
+    icon: 'devnet-icon'
   }
   ];
 
   networkOnChange(event: any): void {
     localStorage.setItem('network', this.selected_network);
-    location.reload();
+    setTimeout(() => {
+      location.reload();
+    }, 300);
   }
   ngOnInit(): void {
-    this.selected_network = localStorage.getItem('network') == null ? '' : localStorage.getItem('network');
+    let network = localStorage.getItem('network');
+    setTimeout(() => {
+      if (network == null) {
+        this.selected_network = 'testnet';
+        localStorage.setItem('network', this.selected_network);
+        setTimeout(() => {
+          location.reload();
+        }, 100);
+      } else {
+        this.selected_network = network;
+      }
+    }, 100);
   }
 }

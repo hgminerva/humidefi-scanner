@@ -18,8 +18,29 @@
                     Network
                 </span>
                 <p-dropdown [options]="networks" placeholder="Network" [(ngModel)]="selected_network"
-                    class="p-inputtext-lg" optionLabel="name" optionValue="name"  [style]="{'width':'100%'}"
-                    (onChange)="networkOnChange($event)" >
+                    class="p-inputtext-lg" optionValue="name" [style]="{'width':'100%'}"
+                    (onChange)="networkOnChange($event)">
+                    <ng-template pTemplate="selectedItem">
+                        <div class="my-dropdown-selected-item">
+                            <i *ngIf="selected_network == 'testnet'" class="testnet-icon"></i> 
+                            <i *ngIf="selected_network == 'devnet'" class="devnet-icon"></i> 
+                            &nbsp;
+                            <span class="text-xl">
+                                {{selected_network}}
+                            </span>
+                        </div>
+                    </ng-template>
+                    <ng-template let-item pTemplate="item">
+
+                        <div class="my-dropdown-selected-item">
+                            <i class={{item.icon}}></i>
+                            &nbsp;
+                            <span class="text-xl">
+                                {{item.name}}
+                            </span>
+                        </div>
+
+                    </ng-template>
                 </p-dropdown>
             </div>
         </div>

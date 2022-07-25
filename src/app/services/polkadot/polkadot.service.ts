@@ -17,15 +17,13 @@ export class PolkadotService {
   constructor(
     private appSettings: AppSettings
   ) {
-    let network = localStorage.getItem('network');
-    if (network == 'Testnet') {
+    let network: any = localStorage.getItem('network') == null ? '' : localStorage.getItem('network');
+    if (network.toLowerCase() == 'testnet') {
       this.wsProvider = new WsProvider(this.appSettings.testNetWSProviderEndpoint);
-    } else if (network == 'Devnet') {
+    } else if (network.toLowerCase() == 'devnet') {
       this.wsProvider = new WsProvider(this.appSettings.devnetWSProviderEndpoint);
     }
   }
-
-  
 
   async blocks(): Promise<any> {
 

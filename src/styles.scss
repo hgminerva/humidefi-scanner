@@ -102,3 +102,58 @@ body {
   );
   box-shadow: 3px 2px 5px 0px #999999 !important;
 }
+
+.testnet-icon {
+  // width:100px;
+  display:block;
+  width: 20px;
+  height: 15px;
+  max-width: 100%;
+  // background:black;
+  color:white;
+  text-decoration:none;
+  padding-left:20px;
+}
+
+.testnet-icon:after {
+  content: '';
+    background:url('assets/img/home/humedifi_icon.ico') no-repeat 0px 0px;
+    background-position: center;
+    // background-size: cover;
+    background-size: contain;
+    position:absolute;
+    max-width: 100%;
+    width: 20px;
+    height: 15px;
+    margin-left:-20px;
+}
+.devnet-icon {
+  // width:100px;
+  display:block;
+  width: 20px;
+  height: 15px;
+  max-width: 100%;
+  // background:black;
+  color:white;
+  text-decoration:none;
+  padding-left:20px;
+}
+
+.devnet-icon:after {
+  content: '';
+    background:url('assets/img/home/computer.ico') no-repeat 0px 0px;
+    background-position: center;
+    // background-size: cover;
+    background-size: contain;
+    position:absolute;
+    max-width: 100%;
+    width: 20px;
+    height: 15px;
+    margin-left:-20px;
+}
+.my-dropdown-selected-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
